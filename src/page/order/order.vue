@@ -1,6 +1,6 @@
  <template>
     <div class="order_page">
-        <head-top head-title="订单列表" go-back='true'></head-top>
+        <head-top head-title="申请纪录" go-back='true'></head-top>
         <ul class="order_list_ul" v-load-more="loaderMore">
             <li class="order_list_li" v-for="item in orderList" :key="item.id">
                 <img :src="imgBaseUrl + item.restaurant_image_url" class="restaurant_image">
@@ -17,17 +17,17 @@
                                 <p class="order_time">{{item.formatted_created_at}}</p>
                             </section>
                             <p class="order_status">
-                                {{item.status_bar.title}}
+                                成功
                             </p>
                         </header>
                         <section class="order_basket">
                             <p class="order_name ellipsis">{{item.basket.group[0][0].name}}{{item.basket.group[0].length > 1 ? ' 等' + item.basket.group[0].length + '件商品' : ''}}</p>
-                            <p class="order_amount">¥{{item.total_amount.toFixed(2)}}</p>
+                            <!--<p class="order_amount">¥{{item.total_amount.toFixed(2)}}</p>-->
                         </section>
                     </section>
                     <div class="order_again">
-                        <compute-time v-if="item.status_bar.title == '等待支付'" :time="item.time_pass"></compute-time>
-                        <router-link :to="{path: '/shop', query: {geohash, id: item.restaurant_id}}" tag="span" class="buy_again" v-else>再来一单</router-link>
+                        <compute-time v-if="item.status_bar.title == '等待确认'" :time="item.time_pass"></compute-time>
+                        <router-link :to="{path: '/shop', query: {geohash, id: item.restaurant_id}}" tag="span" class="buy_again" v-else>看看别的</router-link>
                     </div>
                 </section>
             </li>
@@ -39,7 +39,7 @@
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>
         </transition>
- 
+
     </div>
 </template>
 
@@ -59,7 +59,7 @@
       data(){
             return{
                 orderList: null, //订单列表
-                offset: 0, 
+                offset: 0,
                 preventRepeat: false,  //防止重复获取
                 showLoading: true, //显示加载动画
                 imgBaseUrl
@@ -131,10 +131,10 @@
         }
     }
 </script>
-  
+
 <style lang="scss" scoped>
     @import 'src/style/mixin';
-    
+
     .order_page{
         background-color: #f1f1f1;
         margin-bottom: 1.95rem;

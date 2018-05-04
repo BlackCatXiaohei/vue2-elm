@@ -18,16 +18,16 @@
 								<rating-star :rating='item.rating'></rating-star>
 								<span class="rating_num">{{item.rating}}</span>
 							</section>
-							<section class="order_section">
+							<!--<section class="order_section">
 								月售{{item.recent_order_num}}单
-							</section>
+							</section>-->
 						</section>
-						<section class="rating_order_num_right">
+						<!--<section class="rating_order_num_right">
 							<span class="delivery_style delivery_left" v-if="item.delivery_mode">{{item.delivery_mode.text}}</span>
 							<span class="delivery_style delivery_right" v-if="zhunshi(item.supports)">准时达</span>
-						</section>
+						</section>-->
 					</h5>
-					<h5 class="fee_distance">
+					<!--<h5 class="fee_distance">
 						<p class="fee">
 							¥{{item.float_minimum_order_amount}}起送
 							<span class="segmentation">/</span>
@@ -41,7 +41,7 @@
 							<span class="segmentation">/</span>
 							<span class="order_time">{{item.order_lead_time}}</span>
 						</p>
-					</h5>
+					</h5>-->
 				</hgroup>
 			</router-link>
 		</ul>

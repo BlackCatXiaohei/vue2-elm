@@ -15,8 +15,7 @@
                         </section>
                         <section class="description_right">
                             <h4 class="description_title ellipsis">{{shopDetailData.name}}</h4>
-                            <p class="description_text">商家配送／{{shopDetailData.order_lead_time}}分钟送达／配送费¥{{shopDetailData.float_delivery_fee}}</p>
-                            <p class="description_promotion ellipsis">公告：{{promotionInfo}}</p>
+                            <p class="description_promotion ellipsis">公告：欢迎光临，本店开业酬宾，充2000返800</p>
                         </section>
                         <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg" version="1.1" class="description_arrow" >
                             <path d="M0 0 L8 7 L0 14"  stroke="#fff" stroke-width="1" fill="none"/>
@@ -42,13 +41,13 @@
                         <rating-star :rating='shopDetailData.rating'></rating-star>
                     </h3>
                     <section class="activities_list">
-                        <header class="activities_title_style"><span>优惠信息</span></header>
+                        <!--<header class="activities_title_style"><span>优惠信息</span></header>
                         <ul>
                             <li v-for="item in shopDetailData.activities" :key="item.id">
                                 <span class="activities_icon" :style="{backgroundColor: '#' + item.icon_color, borderColor: '#' + item.icon_color}">{{item.icon_name}}</span>
                                 <span>{{item.description}}（APP专享）</span>
                             </li>
-                        </ul>
+                        </ul>-->
                     </section>
                     <section class="activities_shopinfo">
                         <header class="activities_title_style"><span>商家公告</span></header>
@@ -69,6 +68,21 @@
                     <span :class='{activity_show: changeShowType =="rating"}' @click="changeShowType='rating'">评价</span>
                 </div>
             </section>
+            <router-link to='/vipcard' class="myorder">
+              <aside>
+                <svg fill="#ffc636">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#vip"></use>
+                </svg>
+              </aside>
+              <div class="myorder-div">
+                <span>会员卡</span>
+                <span class="myorder-divsvg">
+                            <svg fill="#bbb">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                            </svg>
+                        </span>
+              </div>
+            </router-link>
             <transition name="fade-choose">
                 <section v-show="changeShowType =='food'" class="food_container">
                     <section class="menu_container">
@@ -111,29 +125,22 @@
 
                                                 </h3>
                                                 <p class="food_description_content">{{foods.description}}</p>
-                                                <p class="food_description_sale_rating">
+                                                <!--<p class="food_description_sale_rating">
                                                     <span>月售{{foods.month_sales}}份</span>
                                                     <span>好评率{{foods.satisfy_rate}}%</span>
-                                                </p>
+                                                </p>-->
                                                 <p v-if="foods.activity" class="food_activity">
                                                 <span :style="{color: '#' + foods.activity.image_text_color,borderColor:'#' +foods.activity.icon_color}">{{foods.activity.image_text}}</span>
                                                 </p>
                                             </section>
                                         </router-link>
-                                        <footer class="menu_detail_footer">
-                                            <section class="food_price">
-                                                <span>¥</span>
-                                                <span>{{foods.specfoods[0].price}}</span>
-                                                <span v-if="foods.specifications.length">起</span>
-                                            </section>
-                                            <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>
-                                        </footer>
+
                                     </section>
                                 </li>
                             </ul>
                         </section>
                     </section>
-                    <section class="buy_cart_container">
+                    <!--<section class="buy_cart_container">
                         <section @click="toggleCartList" class="cart_icon_num">
                             <div class="cart_icon_container" :class="{cart_icon_activity: totalPrice > 0, move_in_cart:receiveInCart}" ref="cartContainer">
                                 <span v-if="totalNum" class="cart_list_length">
@@ -152,8 +159,8 @@
                             <span class="gotopay_button_style" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>
                             <router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay_button_style" v-else >去结算</router-link>
                         </section>
-                    </section>
-                    <transition name="toggle-cart">
+                    </section>-->
+                    <!--<transition name="toggle-cart">
                         <section class="cart_food_list" v-show="showCartList&&cartFoodList.length">
                             <header>
                                 <h4>购物车</h4>
@@ -190,10 +197,10 @@
                                 </ul>
                             </section>
                         </section>
-                    </transition>
-                    <transition name="fade">
+                    </transition>-->
+                    <!--<transition name="fade">
                         <div class="screen_cover" v-show="showCartList&&cartFoodList.length" @click="toggleCartList"></div>
-                    </transition>
+                    </transition>-->
                 </section>
             </transition>
             <transition name="fade-choose">
@@ -259,40 +266,7 @@
                 </section>
             </transition>
         </section>
-        <section>
-            <transition name="fade">
-                <div class="specs_cover" @click="showChooseList" v-if="showSpecs"></div>
-            </transition>
-            <transition name="fadeBounce">
-                <div class="specs_list" v-if="showSpecs">
-                    <header class="specs_list_header">
-                        <h4 class="ellipsis">{{choosedFoods.name}}</h4>
-                        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1"class="specs_cancel" @click="showChooseList">
-                            <line x1="0" y1="0" x2="16" y2="16"  stroke="#666" stroke-width="1.2"/>
-                            <line x1="0" y1="16" x2="16" y2="0"  stroke="#666" stroke-width="1.2"/>
-                        </svg>
-                    </header>
-                    <section class="specs_details">
-                        <h5 class="specs_details_title">{{choosedFoods.specifications[0].name}}</h5>
-                        <ul>
-                            <li v-for="(item, itemIndex) in choosedFoods.specifications[0].values" :class="{specs_activity: itemIndex == specsIndex}" @click="chooseSpecs(itemIndex)">
-                                {{item}}
-                            </li>
-                        </ul>
-                    </section>
-                    <footer class="specs_footer">
-                        <div class="specs_price">
-                            <span>¥ </span>
-                            <span>{{choosedFoods.specfoods[specsIndex].price}}</span>
-                        </div>
-                        <div class="specs_addto_cart" @click="addSpecs(choosedFoods.category_id, choosedFoods.item_id, choosedFoods.specfoods[specsIndex].food_id, choosedFoods.specfoods[specsIndex].name, choosedFoods.specfoods[specsIndex].price, choosedFoods.specifications[0].values[specsIndex], choosedFoods.specfoods[specsIndex].packing_fee, choosedFoods.specfoods[specsIndex].sku_id, choosedFoods.specfoods[specsIndex].stock)">加入购物车</div>
-                    </footer>
-                </div>
-            </transition>
-        </section>
-        <transition name="fade">
-            <p class="show_delete_tip" v-if="showDeleteTip">多规格商品只能去购物车删除哦</p>
-        </transition>
+        <foot-guide></foot-guide>
         <transition
         appear
         @after-appear = 'afterEnter'
@@ -319,7 +293,7 @@
     import {mapState, mapMutations} from 'vuex'
     import {msiteAddress, shopDetails, foodMenu, getRatingList, ratingScores, ratingTags} from 'src/service/getData'
     import loading from 'src/components/common/loading'
-    import buyCart from 'src/components/common/buyCart'
+    import footGuide from 'src/components/footer/footGuide'
     import ratingStar from 'src/components/common/ratingStar'
     import {loadMore, getImgPath} from 'src/components/common/mixin'
     import {imgBaseUrl} from 'src/config/env'
@@ -381,7 +355,7 @@
         components: {
             loading,
             ratingStar,
-            buyCart,
+            footGuide,
         },
         computed: {
             ...mapState([
@@ -471,7 +445,7 @@
                 const wrapMenuHeight = this.$refs.wrapperMenu.clientHeight;
                 this.foodScroll.on('scroll', (pos) => {
                     if (!this.$refs.wrapperMenu) {
-                        return 
+                        return
                     }
                     this.shopListTop.forEach((item, index) => {
                         if (this.menuIndexChange && Math.abs(Math.round(pos.y)) >= item) {
@@ -1292,6 +1266,38 @@
                 border-color: #3190e8;
             }
         }
+    }
+    .myorder{
+      padding-left:1.6rem;
+      display:flex;
+      align-items: center;
+      aside{
+        @include wh(.7rem,.7rem);
+        margin-left:-.866667rem;
+        margin-right:.266667rem;
+        display:flex;
+        align-items: center;
+        svg{
+          @include wh(100%,100%);
+        }
+      }
+      .myorder-div {
+        width: 100%;
+        border-bottom: 1px solid #f1f1f1;
+        padding: .433333rem .266667rem .433333rem 0;
+        @include sc(.7rem, #333);
+        display: flex;
+        justify-content: space-between;
+        span {
+          display: block;
+        }
+        .myorder-divsvg{
+          @include wh(.46667rem,.466667rem);
+          svg{
+            @include wh(100%,100%);
+          }
+        }
+      }
     }
     .rating_container{
         flex: 1;
